@@ -14,13 +14,22 @@ class NuevoVisitorTest(unittest.TestCase):
     def test_start(self):
         # Revision Pagina Index
         self.navegador.get('http://localhost:8080')
-        time.sleep(1)
-        self.tearDown()
+        url_inicial = self.navegador.current_url
 
-        # Revision Pagina Form
-        self.setUp()
-        self.navegador.get('http://localhost:8080/form')
-        time.sleep(1)
+        redireccion = self.navegador.find_element_by_tag_name('a')
+        redireccion.send_keys('\n')
+
+        url_final = self.navegador.current_url
+        assert url_inicial != url_final, 'Se esperaban que las urls %s y %s fueran distintas' % (url_inicial, url_final)
+
+        agregar = self.navegador.find_element_by_id('agregar_item')
+        texto = 'Aca no pasa nada.'
+        agregar.send_keys(texto)
+        agregar.send_keys('\n')
+        resultado = self.navegador.page_source
+        assert texto == resultado, 'Se esperaba que %r fuese %r' % (texto, resultado)
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -9,4 +9,4 @@ class CasoTest:
         assert esta in pagina, 'Se esperaba encontrar %s en %s' % (esta, pagina)
 
     def assert_es_pagina(self, esta, pagina):
-        assert esta == pagina, 'Se esperaba encontrar %s en cambio %s' % (pagina, esta)
+        assert esta == pagina, 'Se esperaba encontrar %r en cambio %r' % (pagina, esta)

@@ -9,13 +9,12 @@ class TestNavegacion(CasoTest):
     def test_home(self):
         request = app.request('/')
         self.assert_status_OK(request.status)
-        self.assert_esta_data('Hola Mundo!', request.data)
+        self.assert_es_pagina(request.data, unicode(render.index()))
 
     def test_form_GET(self):
         request = app.request('/form')
         self.assert_status_OK(request.status)
-        resp = '''<html>\n<form method="POST">\n<input name="dato" type="submit" value="OK">\n</form>\n</html>\n'''
-        self.assert_es_pagina(request.data, resp)
+        self.assert_es_pagina(request.data, unicode(render.form()))
 
     def test_form_POST(self):
         nombre = {'dato': 'Viva la senior'}

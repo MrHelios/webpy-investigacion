@@ -10,7 +10,7 @@ render = web.template.render('templates/')
 
 class Index:
     def GET(self):
-        return "Hola Mundo!"
+        return render.index()
 
 class Form:
     def GET(self):
