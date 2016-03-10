@@ -1,5 +1,11 @@
+$def with(todos)
 <html>
 <h1>Indice:</h1>
     <a id="form" href="/form">Ir a la seccion Form.<a/>
     <a id="registrar" href="/registrar">Ir a la seccion de Registrar.<a/>
+<h2>Inscriptos</h2>
+    <ol>
+        $for cliente in todos:
+        <li>$cliente[1]</li>
+    </ol>
 </html>

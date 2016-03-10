@@ -1,7 +1,8 @@
 from nose.tools import *
-from bin.run import *
 import urllib
 
+from bin.run import *
+from app.db import BaseDatos
 from test_tools import CasoTest
 
 class TestNavegacion(CasoTest):
@@ -9,7 +10,14 @@ class TestNavegacion(CasoTest):
     def test_home(self):
         request = app.request('/')
         self.assert_status_OK(request.status)
-        self.assert_es_pagina(request.data, unicode(render.index()))
+        todos = BaseDatos().todo_elemento_tabla('myweb.db', 'cliente')
+        self.assert_es_pagina(request.data, unicode(render.index(todos)))
+
+    def test_home_confirmar_info(self):
+        request = app.request('/')
+        todos = BaseDatos().todo_elemento_tabla('myweb.db', 'cliente')
+        # Aca busco por nombre:
+        for cliente in todos: self.assert_esta_data(cliente[1], request.data)
 
     def test_form_GET(self):
         request = app.request('/form')

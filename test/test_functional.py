@@ -48,5 +48,6 @@ class NuevoVisitorTest(unittest.TestCase):
         url_final = self.navegador.current_url
         assert url_inicial != url_final, 'Se esperaban que las urls %s y %s fueran distintas' % (url_inicial, url_final)
 
+
 if __name__ == '__main__':
     unittest.main()
