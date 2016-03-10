@@ -10,7 +10,7 @@ def agregarCliente(nomb):
     query.execute("INSERT INTO cliente (id, nombre) VALUES (?,?)",(1,nomb))
 
 def main():
-    crearTable()
+    # crearTable()
     agregarCliente('horacio')
     crearDb.commit()
 
@@ -18,3 +18,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # agregarCliente('horacio')
+    # query.execute('SELECT * FROM cliente')
+    for i in query:
+        print i
