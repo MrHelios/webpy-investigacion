@@ -2,16 +2,8 @@ import sqlite3
 
 class BaseDatos:
 
-    def crearTable(self, nomb_BD):
-        nomb_BD = self.conectar_BD(nomb_BD)
-        crear = self.cursor_BD(nomb_BD)
-        crear.execute('''CREATE TABLE cliente (id INTEGER PRIMARY KEY,
-                                                nombre TEXT)''')
-
-    def agregarCliente(self, num, nomb):
-        nomb_BD = self.conectar_BD(nomb_BD)
-        agregar = self.cursor_BD(nomb_BD)
-        agregar.execute("INSERT INTO cliente (id, nombre) VALUES (?,?)",(num, nomb))
+    def __init__(self):
+        pass
 
     def realizar_commit(self, nomb_DB):
         ''' Guarda todo los cambios realizados '''
@@ -56,5 +48,91 @@ class BaseDatos:
         todos = consulta_DB.execute('SELECT * FROM cliente')
         for i in todos: print i
 
+class CrearTabla:
+
+    def __init__(self):
+        pass
+
+    def crear_T(self, nomb_BD):
+        nomb_BD = BaseDatos().conectar_BD(nomb_BD)
+        crear = BaseDatos().cursor_BD(nomb_BD)
+        crear.execute('''CREATE TABLE cliente (id INTEGER PRIMARY KEY, nombre TEXT)''')
+
+    def agregar_C(self, num, nomb, nomb_BD):
+        nomb_BD = BaseDatos().conectar_BD(nomb_BD)
+        agregar = BaseDatos().cursor_BD(nomb_BD)
+        agregar.execute("INSERT INTO cliente (id, nombre) VALUES (?,?)",(num, nomb))
+
+    def crear_Tabla(self, nomb_BD, nombre_TABLA, *args):
+        ''' Se necesita primero una base de datos para crear un tabla '''
+        nombre_BD = BaseDatos().conectar_BD(nomb_BD)
+        crear = BaseDatos().cursor_BD(nombre_BD)
+        todos = ''
+        for arg in args:
+            for i in arg:
+                todos += i
+        # Creo la TABLA.
+        i = 'CREATE TABLE '+ nombre_TABLA + ' ('+ todos +')'
+        crear.execute(i)
+
+    def insertar_Columna(self, nomb_BD, nomb_TABLA, *args):
+        ''' Se necesita primero una tabla para crear un columna '''
+        nombre_BD = BaseDatos().conectar_BD(nomb_BD)
+        agregar = BaseDatos().cursor_BD(nombre_BD)
+
+        # SEGUIR TRABAJANDO EN ESTA PARTE!!!
+        insertar = 'INSERT INTO '+ nomb_TABLA + '(' + todos + ') VALUES ' + '(' + cont + ')'
+
+class CrearModelo:
+
+    def __init__(self):
+        pass
+
+    def columnas_Int(self, nombre, primary_key = False):
+        if  not primary_key:
+            respuesta = nombre + ' INT '
+        else:
+            respuesta = nombre + ' INT ' + ' PRIMARY KEY '
+        return respuesta
+
+    def columnas_Text(self, nombre, primary_key = False):
+        if  not primary_key:
+            respuesta = nombre + ' TEXT '
+        else:
+            respuesta = nombre + ' TEXT ' + ' PRIMARY KEY '
+        return respuesta
+
+    def columna_Real(self, nombre, primary_key = False):
+        if  not primary_key:
+            respuesta = nombre + ' REAL '
+        else:
+            respuesta = nombre + ' REAL ' + ' PRIMARY KEY '
+        return respuesta
+
+    def obtener_modelos(self, mod_creado):
+        ''' Obtengo las variables que utilizare para crear la BD '''
+        modelos = dir(mod_creado)
+        objeto = dir(CrearModelo)
+        diff = []
+        for mod in modelos:
+            for obj in objeto:
+                esta = False
+                if mod == obj:
+                    esta = True
+                    break;
+            if not esta:
+                diff.append(mod)
+        return diff
+
+    def es_una_subclase(self, nombre):
+        ''' Determinar si es una subclase la app instalada '''
+        return issubclass(nombre, CrearModelo)
+
+
+
 if __name__ == '__main__':
-    BaseDatos().main()
+
+    import inspect
+    print inspect.isclass(Hola)
+    print issubclass(Hola, CrearModelo)
+    print CrearModelo().obtener_modelos(dir(Hola))
