@@ -69,8 +69,8 @@ class CrearTabla:
         crear = BaseDatos().cursor_BD(nombre_BD)
         todos = ''
         for arg in args:
-            for i in arg:
-                todos += i
+            for modelo in arg:
+                todos += modelo
         # Creo la TABLA.
         i = 'CREATE TABLE '+ nombre_TABLA + ' ('+ todos +')'
         crear.execute(i)
@@ -80,8 +80,16 @@ class CrearTabla:
         nombre_BD = BaseDatos().conectar_BD(nomb_BD)
         agregar = BaseDatos().cursor_BD(nombre_BD)
 
-        # SEGUIR TRABAJANDO EN ESTA PARTE!!!
-        insertar = 'INSERT INTO '+ nomb_TABLA + '(' + todos + ') VALUES ' + '(' + cont + ')'
+        todos,cont = ('','')
+        for arg in args:
+            for modelo in arg:
+                # Obtengo el nombre de la variable de la BD.
+                modelo = modelo.split(' ')
+                todos += modelo[0] + ','
+                cont += '?,'
+
+        'OJO INGRASO VALORES ESTATICO!!'
+        insertar = 'INSERT INTO '+ nomb_TABLA + ' (' + todos + ') VALUES ' + '(' + cont + ')', (0,'lucho','lucho')
 
 class CrearModelo:
 
@@ -127,7 +135,6 @@ class CrearModelo:
     def es_una_subclase(self, nombre):
         ''' Determinar si es una subclase la app instalada '''
         return issubclass(nombre, CrearModelo)
-
 
 
 if __name__ == '__main__':

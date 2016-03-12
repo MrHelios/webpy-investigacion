@@ -67,6 +67,8 @@ class TestDataBase:
 
         CrearTabla().crear_Tabla(self.nombre_bd, 'usuario', modelos)
 
+        CrearTabla().insertar_Columna(self.nombre_bd, 'usuario', modelos)
+
     def test_limpieza(self):
         from os import remove
         remove(self.direccion_bd)
